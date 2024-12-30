@@ -1,0 +1,63 @@
+# this is binary classficiation i.e. a note can only be fake or real...
+# so 
+
+# given : dataset = banknotes
+# dataset comes with 4 features: variance,skewness,kurtosis and entropy. 
+#  The labels are found in the dataframe's class column.
+
+#step 1 --> exploring dataset
+
+# Import seaborn
+import seaborn as sns
+
+# Use pairplot and set the hue to be our class column
+sns.pairplot(banknotes, hue='class') 
+
+# Show the plot
+plt.show()
+
+# Describe the data
+print('Dataset stats: \n', banknotes.describe())
+
+# Count the number of observations per class
+print('Observations per class: \n', banknotes['class'].value_counts())
+
+
+# step 2 --> building the model
+
+
+# Import the sequential model and dense layer
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+# Create a sequential model
+model = Sequential()
+
+# Add a dense layer 
+model.add(Dense(1, input_shape=(4,), activation='sigmoid'))
+
+# Compile your model
+model.compile(loss='binary_crossentropy', optimizer='sgd', metrics=['accuracy'])
+
+# Display a summary of your model
+model.summary()
+
+
+
+# step 3 --> training 
+
+
+# Train your model for 20 epochs
+model.fit(X_train, y_train, epochs = 20)
+
+
+
+# step 4 --> evaluating 
+
+
+
+# Evaluate your model accuracy on the test set
+accuracy = model.evaluate(X_test, y_test)[1]
+
+# Print accuracy
+print('Accuracy:', accuracy)
